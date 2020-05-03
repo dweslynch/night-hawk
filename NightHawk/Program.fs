@@ -269,7 +269,7 @@ module Main =
                     match stack.Pop(), stack.Pop() with
                         | Some ops, Some opt ->
                             let result = ``evaluate Xor`` ops opt
-                            stack.Push Result
+                            stack.Push result
                         | _, _ -> ``none error`` line
                     if qadvance then advance()
                 // Logical `nor` on (int, int) or (bool, bool)
@@ -277,6 +277,16 @@ module Main =
                 // (_, unit) INVERTS value
                 | Nor ->
                     Or |> Call |> execute false     // Execute `or` without advancing counter
+                    Not |> Call |> execute false
+                    if qadvance then advance()
+                // Logical `nand` follows same rules as nor
+                | Nand ->
+                    And |> Call |> execute false
+                    Not |> Call |> execute false
+                    if qadvance then advance()
+                // Logical `xnor` follows same rules as nor/nand
+                | Xnor ->
+                    Xor |> Call |> execute false
                     Not |> Call |> execute false
                     if qadvance then advance()
                 | Equal ->

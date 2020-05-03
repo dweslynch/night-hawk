@@ -26,8 +26,8 @@ module Data =
         | And
         | Xor
         | Nor
-        //| Nand
-        //| Xnor
+        | Nand
+        | Xnor
         | Not
         | Equal
         | NotEqual

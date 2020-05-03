@@ -20,6 +20,8 @@ module Tokenizer =
         @"\band\b",     Call And;
         @"\bxor\b",     Call Xor;
         @"\bnor\b",     Call Nor;
+        @"\bnand\b",    Call Nand;
+        @"\bxnor\b",    Call Xnor;
         @"\bnot\b",     Call Not;
         @"\beq\b",      Call Equal;
         @"\bnoteq\b",   Call NotEqual;
