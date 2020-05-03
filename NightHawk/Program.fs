@@ -513,36 +513,21 @@ module Main =
     [<EntryPoint>]
     let main argv =
 
-        let filename = Console.ReadLine ()
-        let lines = File.ReadAllLines filename
-
-        let instructions =
-            lines
-            |> Array.map tokenize
-
-        // For now, no support for files
-        (* let instructions = [
-            Integer 0 |> PushImmediate |> IType;
-            Pop 0 |> IType;
-            DefineLabel "Loop" |> LType;
-
-            Push 0 |> IType;
-            Integer 5 |> PushImmediate |> IType;
-            BranchIfEqual "Exit" |> LType;
-
-            Str "Hello, World!" |> PushImmediate |> IType;
-            PrintNL |> Call;
-
-            Push 0 |> IType;
-            Integer 1 |> PushImmediate |> IType;
-            Add |> Call;
-            Pop 0 |> IType;
-
-            GoToLabel "Loop" |> LType;
-
-            DefineLabel "Exit" |> LType;
-            Exit |> Call
-        ] *)
+        let instructions = 
+            if argv.Length > 0 then
+                let filename = argv.[0]
+                File.ReadAllLines filename
+                |> Array.map tokenize
+            else
+                let mutable lines = []
+                let mutable input = Console.ReadLine()
+                while not (input.Equals "-30-") do
+                    lines <- input :: lines
+                    input <- Console.ReadLine()
+                lines
+                |> List.rev
+                |> List.map tokenize
+                |> Array.ofList
 
         // Pre-process and define labels
         for i in [0 .. Array.length instructions - 1] do
