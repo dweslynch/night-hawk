@@ -265,6 +265,13 @@ module Main =
                             stack.Push result
                         | _, _ -> ``none error`` line
                     if qadvance then advance()
+                | Xor ->
+                    match stack.Pop(), stack.Pop() with
+                        | Some ops, Some opt ->
+                            let result = ``evaluate Xor`` ops opt
+                            stack.Push Result
+                        | _, _ -> ``none error`` line
+                    if qadvance then advance()
                 // Logical `nor` on (int, int) or (bool, bool)
                 // (unit, _) yields unit
                 // (_, unit) INVERTS value
