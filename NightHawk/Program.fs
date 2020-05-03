@@ -448,6 +448,16 @@ module Main =
                 | PushMP ->
                     memory.Count |> Integer |> stack.Push
                     if qadvance then advance()
+                | Jump ->
+                    match stack.Pop() with
+                        | Some value ->
+                            match value with
+                                | Integer j ->
+                                    line <- j
+                                | v ->
+                                    ``type error`` "Integer" (v.ToString())
+                        | None -> ``none error`` line
+                    if qadvance then advance()
 
                 // Add the rest of the calls
 

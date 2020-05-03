@@ -47,6 +47,7 @@ module Data =
         | DecrementMP
         | ResetMP
         | PushMP
+        | Jump
         | Exit
 
     type LType =

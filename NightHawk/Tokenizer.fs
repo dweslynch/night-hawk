@@ -42,6 +42,7 @@ module Tokenizer =
         @"\bdmp\b",     Call DecrementMP;
         @"\brmp\b",     Call ResetMP;
         @"\bpmp\b",     Call PushMP;
+        @"\bjump\b",    Call Jump;
     ]
 
     let private ltypes = Map.ofList [
