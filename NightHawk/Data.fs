@@ -31,10 +31,10 @@ module Data =
         | Not
         | Equal
         | NotEqual
-        //| LessThan
-        //| GreaterThan
-        //| LessThanEqual
-        //| GreaterThanEqual
+        | LessThan
+        | GreaterThan
+        | LessThanEqual
+        | GreaterThanEqual
         | Swap      // Swap top two items of stack
         | PushUnit  // Valid value
         | PushNone  // Throws exception on execution

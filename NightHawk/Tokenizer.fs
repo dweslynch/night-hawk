@@ -25,6 +25,10 @@ module Tokenizer =
         @"\bnot\b",     Call Not;
         @"\beq\b",      Call Equal;
         @"\bnoteq\b",   Call NotEqual;
+        @"\blt\b",      Call LessThan;
+        @"\bgt\b",      Call GreaterThan;
+        @"\blte",       Call LessThanEqual;
+        @"\bgte",       Call GreaterThanEqual;
         @"\bswap\b",    Call Swap;
         @"\bpunit\b",   Call PushUnit;
         @"\bpnone\b",   Call PushNone;

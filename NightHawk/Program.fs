@@ -18,7 +18,7 @@ module Main =
     let mutable pullout = false
     let mutable line = 0
 
-    let locals : Value option array = [|None; None; None; None; None; None|]
+    let locals : Value option array = [|None; None; None; None; None; None; None; None|]
 
     let advance () =
         line <- line + 1
@@ -181,6 +181,7 @@ module Main =
     // Tests direct equality
     // (unit, unit) and (_, unit) -> True
     // (unit, _) -> False
+    // (_, _) -> False
     let ``evaluate Equal`` ops opt =
         match ops, opt with
             | Str s, Str t ->               s.Equals(t) |> Bool
@@ -190,6 +191,32 @@ module Main =
             | Bool b, Bool c ->             (b = c) |> Bool
             | _, Unit ->                    Bool true
             | Unit, _ ->                    Bool false
+            | _, _ ->                       Bool false
+
+    // Compares two values
+    // unit rules are the same as for `Equal`
+    // All illegal values throw exception
+    let ``evaluate Less Than`` ops opt =
+        match ops, opt with
+            | Character _c, Character _d -> ((int _c) < (int _d)) |> Bool
+            | Integer i, Integer j ->       (i < j) |> Bool
+            | Dbl d, Dbl f ->               (d < f) |> Bool
+            | Bool b, Bool c ->             (b < c) |> Bool
+            | _, Unit ->                    Bool true
+            | Unit, _ ->                    Bool false
+            | a, b ->                       ``operation error`` "Less Than" a b line
+
+    // Compares two values
+    // Rules are identical to Less Than
+    let ``evaluate Greater Than`` ops opt =
+        match ops, opt with
+            | Character _c, Character _d -> ((int _c) > (int _d)) |> Bool
+            | Integer i, Integer j ->       (i > j) |> Bool
+            | Dbl d, Dbl f ->               (d > f) |> Bool
+            | Bool b, Bool c ->             (b > c) |> Bool
+            | _, Unit ->                    Bool true
+            | Unit, _ ->                    Bool false
+            | a, b ->                       ``operation error`` "Greater Than" a b line
 
     // Converts character to its ASCII code
     // Unit -> 0
@@ -295,6 +322,42 @@ module Main =
                             let result = ``evaluate Equal`` ops opt
                             stack.Push result
                         | _, _ -> ``none error`` line
+                    if qadvance then advance()
+                | LessThan ->
+                    match stack.Pop(), stack.Pop() with
+                    | Some ops, Some opt ->
+                        let result = ``evaluate Less Than`` ops opt
+                        stack.Push result
+                    | _, _ -> ``none error`` line
+                    if qadvance then advance()
+                | GreaterThan ->
+                    match stack.Pop(), stack.Pop() with
+                    | Some ops, Some opt ->
+                        let result = ``evaluate Greater Than`` ops opt
+                        stack.Push result
+                    | _, _ -> ``none error`` line
+                    if qadvance then advance()
+                // Computes less-than-or-equal for two values
+                // Unit rules are the same as other comparisons
+                | LessThanEqual ->
+                    Poll 7 |> IType |> execute false
+                    Poll 6 |> IType |> execute false
+                    LessThan |> Call |> execute false
+                    Push 6 |> IType |> execute false
+                    Push 7 |> IType |> execute false
+                    Equal |> Call |> execute false
+                    Or |> Call |> execute false
+                    if qadvance then advance()
+                // Greater-than-or-equal
+                // Unit rules are the same as for other comparisons
+                | GreaterThanEqual ->
+                    Poll 7 |> IType |> execute false
+                    Poll 6 |> IType |> execute false
+                    GreaterThan |> Call |> execute false
+                    Push 6 |> IType |> execute false
+                    Push 7 |> IType |> execute false
+                    Equal |> Call |> execute false
+                    Or |> Call |> execute false
                     if qadvance then advance()
                 // Exact inversion of the equality operation
                 // True -> False, False -> True
