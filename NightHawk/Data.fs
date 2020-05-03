@@ -69,7 +69,7 @@ module Data =
         | PushImmediate of Value
         | Pop of int              // Pop top of stack into locals
         | Push of int             // Push local variable onto stack
-        //| Poll
+        | Poll of int
         // Add more later
 
     type LIType =
@@ -99,6 +99,12 @@ module Data =
                 let x = list.[i]
                 list.RemoveAt(0)
                 x
+
+        member this.Poll() : Value option =
+            if list.Count < 1 then
+                IndexOutOfRangeException "Attempted access on empty stack" |> raise
+            else
+                list.[0]
 
         member this.Pop() : Value option =
             if list.Count < 1 then

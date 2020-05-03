@@ -470,6 +470,16 @@ module Main =
                         ``locvar error`` loc
 
                     if qadvance then advance()
+                // Polls a value from the stack (does not remove)
+                // Same rules as Pop
+                | Poll loc ->
+                    if loc < 6 then
+                        match stack.Poll() with
+                            | Some value -> locals.[loc] <- Some value
+                            | None -> ``none error`` line
+                    else
+                        ``locvar error`` loc
+                    if qadvance then advance()
                 // Pushes the value of a local variable onto the stack
                 // Same rules as Pop
                 | Push loc ->

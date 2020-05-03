@@ -92,11 +92,12 @@ module Tokenizer =
             else None
 
         let itype =
-            let _match = Regex.Match(line, @"\b(pop|push)\s+([0-9]+)")
+            let _match = Regex.Match(line, @"\b(pop|push|poll)\s+([0-9]+)")
             if _match.Success then
                 match _match.Groups.[1].Value with
                     | "pop" -> Convert.ToInt32 _match.Groups.[2].Value |> Pop |> IType |> Some
                     | "push" -> Convert.ToInt32 _match.Groups.[2].Value |> Push |> IType |> Some
+                    | "poll" -> Convert.ToInt32 _match.Groups.[2].Value |> Poll |> IType |> Some
             else None
 
         let litype =
