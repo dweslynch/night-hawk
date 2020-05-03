@@ -63,7 +63,7 @@ module Data =
         | BranchIf of string
         | BranchIfEqual of string
         | BranchIfNotEqual of string
-        //| BranchIfLessThan of string
+        | BranchIfLessThan of string
 
     type IType =
         | PushImmediate of Value

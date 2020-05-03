@@ -543,7 +543,12 @@ module Main =
 
                     NotEqual |> Call |> execute false
                     BranchIf label |> LType |> execute true
+                | BranchIfLessThan label ->
+                    if not (labels.ContainsKey label) then
+                        ``label error`` label line
 
+                    LessThan |> Call |> execute false
+                    BranchIf label |> LType |> execute true
         | IType i ->
             match i with
                 // Pushes an immediate value to the stack

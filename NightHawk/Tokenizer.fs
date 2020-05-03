@@ -52,7 +52,7 @@ module Tokenizer =
         "bif",      LType << BranchIf;
         "beq",      LType << BranchIfEqual;
         "bne",      LType << BranchIfNotEqual;
-        //"blt",      LType << BranchIfLessThan;
+        "blt",      LType << BranchIfLessThan;
     ]
 
     let private isNumeric (str : string) =
