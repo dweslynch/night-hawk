@@ -38,6 +38,10 @@ module Tokenizer =
         @"\bstore\b",   Call Store;
         @"\bload\b",    Call Load;
         @"\bexit\b",    Call Exit;
+        @"\bimp\b",     Call IncrementMP;
+        @"\bdmp\b",     Call DecrementMP;
+        @"\brmp\b",     Call ResetMP;
+        @"\bpmp\b",     Call PushMP;
     ]
 
     let private ltypes = Map.ofList [

@@ -436,6 +436,18 @@ module Main =
                                 | v -> ``type error`` "Integer" (v.ToString())
                         | None -> ``none error`` line
                     if qadvance then advance()
+                | IncrementMP ->
+                    memory.Add(Unit)
+                    if qadvance then advance()
+                | DecrementMP ->
+                    memory.RemoveAt(memory.Count - 1)
+                    if qadvance then advance()
+                | ResetMP ->
+                    memory.Clear ()
+                    if qadvance then advance()
+                | PushMP ->
+                    memory.Count |> Integer |> stack.Push
+                    if qadvance then advance()
 
                 // Add the rest of the calls
 

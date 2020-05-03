@@ -43,10 +43,10 @@ module Data =
         | IntToChar
         | Store
         | Load
-        //| IncrementMP
-        //| DecrementMP
-        //| ResetMP
-        //| PushMP
+        | IncrementMP
+        | DecrementMP
+        | ResetMP
+        | PushMP
         | Exit
 
     type LType =
