@@ -553,7 +553,7 @@ module Main =
                     if qadvance then advance()
                 // Pops a value from the stack into the local variable represented by the immediate integer
                 | Pop loc ->
-                    if loc < 6 then
+                    if loc < 8 then
                         match stack.Pop() with
                             | Some value -> locals.[loc] <- Some value
                             | None -> ``none error`` line
@@ -564,7 +564,7 @@ module Main =
                 // Polls a value from the stack (does not remove)
                 // Same rules as Pop
                 | Poll loc ->
-                    if loc < 6 then
+                    if loc < 8 then
                         match stack.Poll() with
                             | Some value -> locals.[loc] <- Some value
                             | None -> ``none error`` line
@@ -574,7 +574,7 @@ module Main =
                 // Pushes the value of a local variable onto the stack
                 // Same rules as Pop
                 | Push loc ->
-                    if loc < 6 then
+                    if loc < 8 then
                         stack.Push locals.[loc]
                     else ``locvar error`` loc
 
