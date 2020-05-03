@@ -416,19 +416,22 @@ module Main =
                     else
                         ``label error`` label line
                     if qadvance then advance()
+                // Unconditionally jumps to the label specified
                 | GoToLabel label ->
                     if labels.ContainsKey label then
                         line <- labels.[label]
                     else
                         ``label error`` label line
+                // Jumps to specified label and pushes current line + 1 onto stack
                 | JumpAndLink label ->
                     if not (labels.ContainsKey label) then
                         ``label error`` label line
 
-                    // Push `line` onto stack
-                    line |> Integer |> PushImmediate |> IType |> execute false
+                    // Push `line` + 1 onto stack
+                    line + 1|> Integer |> PushImmediate |> IType |> execute false
                     // Jump
                     GoToLabel label |> LType |> execute false
+                // Branches to specified label if top-of-stack value is True
                 | BranchIf label ->
                     if not (labels.ContainsKey label) then
                         ``label error`` label line
@@ -446,11 +449,19 @@ module Main =
                         | None ->
                             ``none error`` line
                             if qadvance then advance()
+                // Branches to specified label if top two stack values are equal
                 | BranchIfEqual label ->
                     if not (labels.ContainsKey label) then
                         ``label error`` label line
 
                     Equal |> Call |> execute false
+                    BranchIf label |> LType |> execute true
+                // Branches to specified label if top two stack values are not equal
+                | BranchIfNotEqual label ->
+                    if not (labels.ContainsKey label) then
+                        ``label error`` label line
+
+                    NotEqual |> Call |> execute false
                     BranchIf label |> LType |> execute true
 
         | IType i ->

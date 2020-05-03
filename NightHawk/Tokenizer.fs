@@ -45,6 +45,8 @@ module Tokenizer =
         "jal",      LType << JumpAndLink;
         "bif",      LType << BranchIf;
         "beq",      LType << BranchIfEqual;
+        "bne",      LType << BranchIfNotEqual;
+        //"blt",      LType << BranchIfLessThan;
     ]
 
     let private isNumeric (str : string) =

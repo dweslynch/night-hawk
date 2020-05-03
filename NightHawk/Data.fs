@@ -62,7 +62,7 @@ module Data =
         | JumpAndLink of string
         | BranchIf of string
         | BranchIfEqual of string
-        //| BranchIfNotEqual of string
+        | BranchIfNotEqual of string
         //| BranchIfLessThan of string
 
     type IType =
